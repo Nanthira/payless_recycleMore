@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WasteLess Fee & Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="intro">
+        <div>
+          <p class="eyebrow">Bangkok planning estimate</p>
+          <h1>WasteLess Fee & Map</h1>
+          <p class="intro-copy">
+            Build a daily waste list, estimate the monthly fee, then explore real Bangkok district waste data.
+          </p>
+        </div>
+        <div class="source-note">
+          Fee rules are based on Greener Bangkok's "Baan Nee Mai Te Ruam" page. Results are estimates, not official bills.
+        </div>
+      </section>
+
+      <nav class="tabs" aria-label="Main views">
+        <button class="tab-button active" type="button" data-view="calculator">Calculator</button>
+        <button class="tab-button" type="button" data-view="map">Waste map</button>
+      </nav>
+
+      <section class="view active" id="calculator-view">
+        <form class="calculator-panel" id="calculator-form">
+          <div class="field-group">
+            <label for="user-name">Your name</label>
+            <input id="user-name" name="userName" type="text" maxlength="30" value="Waste saver">
+          </div>
+
+          <div class="field-group">
+            <label for="user-type">User type</label>
+            <select id="user-type" name="userType">
+              <option value="household">Household or general home</option>
+              <option value="business">Shop or small business</option>
+              <option value="large">Large building or business</option>
+            </select>
+          </div>
+
+          <div class="waste-builder">
+            <div class="builder-heading">
+              <div>
+                <label>Daily waste items</label>
+                <p class="hint">Add up to 10 waste types. Kg inputs are converted to liters before the fee is estimated.</p>
+              </div>
+              <button class="secondary-button" type="button" id="add-item-button">Add item</button>
+            </div>
+
+            <div class="waste-items" id="waste-items"></div>
+            <p class="error-message" id="calculator-error" role="alert"></p>
+          </div>
+
+          <label class="checkbox-row" id="discount-row">
+            <input id="discount-qualified" name="discountQualified" type="checkbox">
+            <span>Household qualifies for the waste-separation discount</span>
+          </label>
+
+          <div class="button-row">
+            <button type="submit">Calculate fee</button>
+            <button class="secondary-button" type="button" id="reset-button">Reset</button>
+            <button class="secondary-button" type="button" id="save-score-button">Save recycling score</button>
+          </div>
+        </form>
+
+        <aside class="result-panel" aria-live="polite">
+          <p class="eyebrow">Estimated monthly fee</p>
+          <div class="fee-total"><span id="fee-total">60</span> THB</div>
+          <p class="tier-label" id="tier-label">Household tier</p>
+          <dl class="result-list">
+            <div>
+              <dt>Normal fee</dt>
+              <dd><span id="normal-fee">60</span> THB/month</dd>
+            </div>
+            <div>
+              <dt>Estimated savings</dt>
+              <dd><span id="savings">0</span> THB/month</dd>
+            </div>
+            <div>
+              <dt>Total volume</dt>
+              <dd><span id="volume-summary">20</span> liters/day</dd>
+            </div>
+            <div>
+              <dt>Total weight</dt>
+              <dd><span id="weight-summary">4</span> kg/day</dd>
+            </div>
+            <div>
+              <dt>Recycling score</dt>
+              <dd><span id="score-summary">0</span> points</dd>
+            </div>
+          </dl>
+          <p class="explanation" id="fee-explanation">
+            This household is at or below 20 liters per day, so the normal planning fee is 60 THB/month.
+          </p>
+        </aside>
+      </section>
+
+      <section class="view" id="map-view">
+        <div class="map-layout">
+          <div class="map-panel">
+            <div id="waste-map" aria-label="Waste pressure map"></div>
+          </div>
+          <aside class="map-details" aria-live="polite">
+            <p class="eyebrow">Selected area</p>
+            <h2 id="place-name">Bangkok districts</h2>
+            <p id="place-description">
+              Click a district to see reported municipal waste from Bangkok Open Data.
+            </p>
+            <dl class="result-list">
+              <div>
+                <dt>Metric</dt>
+                <dd id="place-metric">Waste per day</dd>
+              </div>
+              <div>
+                <dt>Value</dt>
+                <dd id="place-value">No point selected</dd>
+              </div>
+              <div>
+                <dt>Source</dt>
+                <dd id="place-source">BKK Open Data</dd>
+              </div>
+            </dl>
+            <div class="legend" aria-label="Map legend">
+              <span><b class="legend-dot high"></b>Higher reported waste</span>
+              <span><b class="legend-dot medium"></b>Moderate reported waste</span>
+              <span><b class="legend-dot low"></b>Lower reported waste</span>
+              <span><b class="legend-dot missing"></b>No data</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <footer class="leaderboard-panel">
+        <div>
+          <p class="eyebrow">Community board</p>
+          <h2>Recycling leaderboard</h2>
+        </div>
+        <ol class="leaderboard-list" id="leaderboard-list"></ol>
+      </footer>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

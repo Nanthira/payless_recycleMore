@@ -1,0 +1,11 @@
+{
+  "name": "wasteless-fee-map",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build:data": "node src/scripts/buildBangkokWasteData.js",
+    "start": "node src/scripts/serve.js",
+    "test": "node tests/feeCalculator.test.js"
+  }
+}
